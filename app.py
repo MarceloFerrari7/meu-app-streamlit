@@ -12,12 +12,13 @@ if 'df_experiment_results' not in st.session_state:
 
 st.header('Jogando uma moeda')
 
-chart = st.line_chart([0.5])
+# Usamos um espaço reservado (placeholder) para o gráfico
+chart_placeholder = st.empty()
 
 def toss_coin(n):
     trial_outcomes = scipy.stats.bernoulli.rvs(p=0.5, size=n)
 
-    mean = None
+    means = []
     outcome_no = 0
     outcome_1_count = 0
 
@@ -26,7 +27,9 @@ def toss_coin(n):
         if r == 1:
             outcome_1_count += 1
         mean = outcome_1_count / outcome_no
-        chart.add_rows([mean])
+        means.append(mean)
+        # Atualiza o gráfico com todos os valores acumulados até o momento
+        chart_placeholder.line_chart(means)
         time.sleep(0.05)
 
     return mean
